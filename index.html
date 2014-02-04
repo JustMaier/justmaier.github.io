@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JustMaier</title>
+	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+	html{
+		height: 100%;
+	}
+	body{
+		margin:0;
+		background: #40d47e;
+		height: 100%;
+	}
+	h1{
+		font-weight: 100;
+		width: 90%;
+		font-family: 'lato', sans-serif;
+		color: #fff;
+		margin: 0 auto;
+		text-align:  center;
+		min-height: 100%;
+		line-height: 1;
+	}
+	span{
+		line-height: 100vh;
+	}
+	</style>
+</head>
+<body>
+	<h1 id="headline"><span>JustMaier</span></h1>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="bigtext.js"></script>
+	<script>
+		$('h1').bigtext()
+		var backgroundColors = ["#1abc9c","#2ecc71","#4aa3df","#9b59b6","#34495e","#f1c40f","#d35400","#c0392b","#bdc3c7","#95a5a6"];
+		$('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
+	</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" ng-app="app" ng-controller="flatStart">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat Start</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #222
+        }
+        .btn-add-feed {
+            display: block;
+            -webkit-border-radius: 0;
+            border-radius: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 2
+        }
+        header {
+            height: 200px;
+            background-position: center;
+            border-bottom: 15px solid rgba(255, 255, 255, 0.4);
+            margin-bottom: 15px;
+            position: relative;
+            border-color: rgba(34, 34, 34, 0.4);
+        }
+        header p.copyright {
+            position: absolute;
+            margin: 0;
+            bottom: 0;
+            right: 5px;
+            text-align: right;
+            font-size: .7em;
+            color: #fff;
+            text-shadow: 0 0 1px #000;
+            opacity: .6;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+            filter: alpha(opacity=60)
+        }
+        div.panel {
+            background: none;
+        }
+        div.panel div.panel-heading {
+            padding: 0;
+            background-color: rgba(255, 255, 255, 0.3) !important;
+        }
+        div.panel div.panel-heading a: hover {
+            text-decoration: none
+        }
+        div.panel div.panel-heading h4.panel-title {
+            padding: 10px 15px;
+            color: #fff
+        }
+        div.panel div.panel-heading .manage-buttons {
+            text-align: center;
+        }
+        div.panel div.panel-heading .manage-buttons button {
+            border: none;
+            background: none;
+            display: inline-block;
+            line-height: 37px;
+            padding: 0 2px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        div.panel div.panel-heading .manage-buttons button: hover {
+            color: rgba(255, 255, 255, 0.6)
+        }
+        div.panel div.panel-body {
+            background-color: rgba(255, 255, 255, 0.8)
+        }
+        div.panel .list-group-item {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        div.panel .list-group-item: visited {
+            color: #999
+        }
+        .row.small-gutter {
+            margin-left: -5px;
+            margin-right: -5px;
+        }
+        .row.small-gutter div[class*='col-'] {
+            padding: 0 5px
+        }
+    </style>
+</head>
+
+<body ng-style="{'background-color':BingPhoto.color}">
+    <button class="btn btn-default btn-xs btn-add-feed" ng-click="feedManager.add(feeds)"><span class="glyphicon glyphicon-plus"></span>
+    </button>
+
+    <header ng-style="{'background-image':'url('+BingPhoto.url+')', 'border-color':BingPhoto.colorTransparent}">
+        <p class="copyright" ng-bind="BingPhoto.copyright"></p>
+    </header>
+
+    <div class="container feeds">
+        <div class="row">
+            <div class="col-sm-6 col-md-4" ng-repeat="column in columns track by $index">
+                <div class="panel" ng-repeat="feed in feeds | columnSorter:$index:columns.length">
+                    <div class="panel-heading">
+                        <div class="row small-gutter">
+                            <div class="col-xs-9">
+                                <a ng-href="{{feed.site}}" target="_blank"><h4 class="panel-title">{{feed.edited.title || feed.title}}</h4></a>
+                            </div>
+                            <div class="col-xs-3 manage-buttons">
+                                <button ng-click="feedManager.edit(feed)"><span class="glyphicon glyphicon-edit"></span>
+                                </button>
+                                <button ng-click="feedManager.delete(feed, feeds)"><span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" ng-if="feed.edited" ng-form name="editForm">
+                        <div class="row small-gutter">
+                            <div class="col-xs-8 col-md-9">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input class="form-control" type="text" id="title" name="title" ng-model="feed.edited.title" placeholder="Title of Feed" required>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="amount">Items</label>
+                                    <input class="form-control" type="number" id="amount" name="amount" ng-model="feed.edited.amount" placeholder="5" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="url">Feed Url</label>
+                            <input class="form-control" type="text" id="url" name="url" ng-model="feed.edited.url" placeholder="Url of Feed" required>
+                        </div>
+                        <div class="btn-group btn-group-justified btn-group-sm">
+                            <a class="btn btn-default btn-sm" ng-class="{'btn-primary':editForm.$valid}" ng-click="feedManager.save(feed, feeds, editForm.$valid)" href="">Save</a>
+                            <a class="btn btn-default btn-sm" ng-click="feedManager.cancel(feed, feeds)" href="">Cancel</a>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        <a ng-href="{{post.link}}" class="list-group-item" ng-bind="post.title" target="_blank" ng-repeat="post in feed.data"></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="js/site.min.js"></script>
+</body>
+
+</html>

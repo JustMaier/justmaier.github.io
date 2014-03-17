@@ -262,6 +262,7 @@ angular.module('app',['autoFields'])
 	$scope.schema = [
 		{ property: 'username', type: 'text', attr: { ngMinlength: 4, required: true }, msgs: {minlength: 'Needs to have at least 4 characters'} },
 		{ property: 'email', type: 'email', attr: { required: true }, msgs: {required: 'You need an email address', email:'Email address needs to be valid', valid: 'Nice email address!'} },
+		{ property: 'website', type: 'url', msgs: {url: 'You need a valid url'} },
 		{ property: 'birthdate', type: 'date', attr: { required: true } },
 		{ property: 'gender', type: 'select', list: 'key as value for (key,value) in genders', attr: {required: true}},
 		{ property: 'bio', type: 'textarea', rows: 5, placeholder: 'A bit about yourself...'},
@@ -373,6 +374,7 @@ angular.module('app',['autoFields'])
 			$scope.schema = [
 				{ property: 'username', type: 'text', attr: { ngMinlength: 4, required: true }, msgs: {minlength: 'Needs to have at least 4 characters'} },
 				{ property: 'email', type: 'email', attr: { required: true }, msgs: {required: 'You need an email address', email:'Email address needs to be valid', valid: 'Nice email address!'} },
+				{ property: 'website', type: 'url', msgs: {url: 'You need a valid url'} },
 				{ property: 'birthdate', type: 'date', attr: { required: true } },
 				{ property: 'gender', type: 'select', list: 'key as value for (key,value) in genders', attr: {required: true}},
 				{ property: 'bio', type: 'textarea', rows: 5, placeholder: 'A bit about yourself...'},

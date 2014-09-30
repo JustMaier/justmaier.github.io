@@ -210,6 +210,7 @@
 	<h4>Demo Functions</h4>
 	<button class="btn btn-default" ng-click="addField()">Add Field</button>
 	<button class="btn btn-default" ng-click="toggleValidation()">Toggle Validation</button>
+	<button class="btn btn-default" ng-click="togglePopovers()">Toggle Popovers</button>
 	<button class="btn btn-default" ng-click="toggleHorizontal()">Toggle Horizontal</button>
 </div>
 				</div>				
@@ -432,7 +433,7 @@ angular.module('app',['autofields'])
 		{ property: 'birthdate', type: 'date', attr: { required: true } },
 		{ property: 'gender', type: 'select', list: 'key as value for (key,value) in genders', attr: {required: true}},
 		{ property: 'genderCheck', label:'Are you really?', type: 'select', list: 'key as value for (key,value) in genderCheck', attr: {required: true, ngShow:'$data.gender != null'}},
-		{ property: 'bio', type: 'textarea', rows: 5, placeholder: 'A bit about yourself...'},
+		{ property: 'bio', type: 'textarea', rows: 5, placeholder: 'A bit about yourself...', attr:{required:true}},
 		{ type:'multiple', fields: [
 			{ property: 'password', type: 'password', attr: { required: true, ngMinlength:6 } },
 			{ property: 'confirmPassword', label: 'Confirm Password', type: 'password', attr: { confirmPassword: 'user.password', required: true, ngMinlength:6 }, msgs: {match: 'Your passwords need to match'} }
@@ -442,7 +443,8 @@ angular.module('app',['autofields'])
 
 	$scope.options = {
 		validation: {
-			enabled: true
+			enabled: true,
+			showMessages: false
 		},
 		layout: {
 			type: 'basic',
@@ -463,6 +465,10 @@ angular.module('app',['autofields'])
 
 	$scope.toggleValidation = function(){
 		$scope.options.validation.enabled = !$scope.options.validation.enabled;
+	};
+
+	$scope.togglePopovers = function(){
+		$scope.options.validation.showMessages = !$scope.options.validation.showMessages;
 	};
 
 	$scope.toggleHorizontal = function(){

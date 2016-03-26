@@ -1,6 +1,6 @@
 /**
- * @license Autofields v2.1.8
- * (c) 2014 Justin Maier http://justmaier.github.io/angular-autoFields-bootstrap
+ * @license Autofields v2.2.1
+ * (c) 2016 Justin Maier http://justmaier.github.io/angular-autoFields-bootstrap
  * License: MIT
  */
 'use strict';
@@ -29,7 +29,6 @@ angular.module('autofields.bootstrap', ['autofields.standard','ui.bootstrap'])
 
 		// Date Handler with Bootstrap Popover
 		$autofieldsProvider.settings.dateSettings = {
-			showWeeks:false,
 			datepickerPopup: 'MMMM dd, yyyy'
 		};
 		$autofieldsProvider.settings.scope.datepickerOptions = {
@@ -42,13 +41,11 @@ angular.module('autofields.bootstrap', ['autofields.standard','ui.bootstrap'])
 			$scope[property] = !$scope[property];
 		};
 		$autofieldsProvider.registerHandler('date', function(directive, field, index){
-			var showWeeks = field.showWeeks ? field.showWeeks : directive.options.dateSettings.showWeeks;
 			var datepickerPopup = field.datepickerPopup ? field.datepickerPopup : directive.options.dateSettings.datepickerPopup;
 
 			var inputAttrs = {
 				type:'text',
-				showWeeks: showWeeks,
-				datepickerPopup: datepickerPopup,
+				uibDatepickerPopup: datepickerPopup,
 				datepickerOptions: 'datepickerOptions',
 				isOpen: '$property_cleanOpen'
 			};
@@ -225,9 +222,9 @@ angular.module('autofields.bootstrap', ['autofields.standard','ui.bootstrap'])
  * validation popovers and highlight valid/invalid fields
  */
 angular.module('autofields.bootstrap.validation',['autofields.validation'])
-	.config(['$tooltipProvider', function($tooltipProvider){
-		$tooltipProvider.setTriggers({'keyup focus':'blur'});
-		$tooltipProvider.options({
+	.config(['$uibTooltipProvider', function($uibTooltipProvider){
+		$uibTooltipProvider.setTriggers({'keyup focus':'blur'});
+		$uibTooltipProvider.options({
 			placement:'top',
 			animation:false
 		});
@@ -235,7 +232,7 @@ angular.module('autofields.bootstrap.validation',['autofields.validation'])
 	.config(['$autofieldsProvider', function($autofieldsProvider){
 		// Add Validation Attributes
 		$autofieldsProvider.settings.attributes.container.ngClass = "{'has-error':"+$autofieldsProvider.settings.validation.invalid+", 'has-success':"+$autofieldsProvider.settings.validation.valid+"}";
-		$autofieldsProvider.settings.attributes.input.popover = "{{("+$autofieldsProvider.settings.validation.valid+") ? '$validMsg' : ($errorMsgs)}}";
+		$autofieldsProvider.settings.attributes.input.uibPopover = "{{("+$autofieldsProvider.settings.validation.valid+") ? '$validMsg' : ($errorMsgs)}}";
 
 		// Dont show popovers on these types
 		// this is to avoid multiple scope errors with UI Bootstrap
@@ -246,21 +243,21 @@ angular.module('autofields.bootstrap.validation',['autofields.validation'])
 			//Check to see if validation should be added
 			if(!fieldElements.validation || $autofieldsProvider.settings.noPopover.indexOf(field.type) != -1){
 				//If not enabled, remove validation hooks
-				fieldElements.input.removeAttr('popover');
+				fieldElements.input.removeAttr('uib-popover');
 				return fieldElements;
 			}
 
 			// Add validation attributes
 			if(fieldElements.msgs.length){
-				var popoverAttr = fieldElements.input.attr('popover')
+				var popoverAttr = fieldElements.input.attr('uib-popover')
 									.replace(/\$validMsg/gi, fieldElements.validMsg)
 									.replace(/\$errorMsgs/gi, fieldElements.msgs.join('+'));
 				fieldElements.input.attr({
-					'popover-trigger':'keyup focus',
-					'popover':popoverAttr
+					'uib-popover-trigger':'keyup focus',
+					'uib-popover':popoverAttr
 				});
 			}else{
-				fieldElements.input.removeAttr('popover');
+				fieldElements.input.removeAttr('uib-popover');
 			}
 
 			return fieldElements;
